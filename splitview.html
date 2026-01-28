@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Split view</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      #list {
+        display: flex;
+        flex: 1;
+        gap: 5px;
+        padding: 5px;
+        overflow-x: auto;
+      }
+
+      iframe {
+        flex: 1 0 300px;
+        height: 100%;
+        border: 1px solid #ccc;
+        position: relative;
+      }
+
+      form {
+        padding: 10px;
+        background: #eee;
+      }
+      .close {
+        position: absolute;
+        top: 20px;
+      }
+    </style>
+    <script>
+      function add(e) {
+        e.preventDefault(); // Stop page reload
+        const val = document.getElementById("url").value;
+        document.getElementById(
+          "list"
+        ).innerHTML += `<button class="close">X</button><iframe src="${val}" loading="lazy"></iframe>`;
+        document.getElementById("url").value = ""; // Clear input
+      }
+    </script>
+  </head>
+  <body>
+    <form onsubmit="add(event)">
+      <label for="url">Enter an https:// URL:</label>
+      <input
+        type="url"
+        name="url"
+        id="url"
+        placeholder="https://example.com"
+        pattern="https://.*"
+        size="30"
+        required
+      />
+      <button>Add</button>
+    </form>
+
+    <div id="list"></div>
+  </body>
+</html>
