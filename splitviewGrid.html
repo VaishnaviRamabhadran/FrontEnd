@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Split view</title>
+    <style>
+      #list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-rows: 100vh;
+      }
+      .frame-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+      }
+      .close {
+        grid-row: 1;
+        grid-column: 1;
+        justify-self: end;
+        z-index: 1;
+        height: 30px;
+        width: 30px;
+      }
+      /* .frame-container {
+        position: relative;
+      }
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }*/
+
+      iframe {
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      form {
+        padding: 10px;
+        background: #eee;
+      }
+    </style>
+    <script>
+      function add(e) {
+        e.preventDefault(); // Stop page reload
+        const val = document.getElementById("url").value;
+        document.getElementById("list").innerHTML += `
+         <div class="frame-container"">
+       <button class="close">X</button> <iframe src="${val}" loading="lazy"></iframe></div>`;
+        document.getElementById("url").value = ""; // Clear input
+      }
+    </script>
+  </head>
+  <body>
+    <form onsubmit="add(event)">
+      <label for="url">Enter an https:// URL:</label>
+      <input
+        type="url"
+        name="url"
+        id="url"
+        placeholder="https://example.com"
+        pattern="https://.*"
+        size="30"
+        required
+      />
+      <button>Add</button>
+    </form>
+
+    <div id="list"></div>
+  </body>
+</html>
