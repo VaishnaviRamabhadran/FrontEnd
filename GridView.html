@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Split view</title>
+    <style>
+      #list {
+        display: grid;
+        gap: 10px;
+        padding: 10px;
+        height: calc(100vh - 80px); 
+        grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+        grid-auto-rows: 1fr;
+      }
+
+      .frame-container:last-child:nth-child(odd):not(:first-child) {
+        grid-column: 1 / -1; 
+        display: grid;
+        justify-items: center;
+      }
+
+      
+      .frame-container:last-child:nth-child(odd):not(:first-child) iframe {
+        width: 50%; 
+      }
+
+      .frame-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 2px solid black;
+      }
+      form {
+        padding: 10px;
+        background: #eee;
+      }
+    </style>
+    <script>
+      function add(e) {
+        e.preventDefault(); // Stop page reload
+        const val = document.getElementById("url").value;
+        document.getElementById("list").innerHTML += `
+         <div class="frame-container"">
+        <iframe src="${val}" loading="lazy"></iframe></div>`;
+        document.getElementById("url").value = ""; // Clear input
+      }
+    </script>
+  </head>
+  <body>
+    <form onsubmit="add(event)">
+      <label for="url">Enter an https:// URL:</label>
+      <input
+        type="url"
+        name="url"
+        id="url"
+        placeholder="https://example.com"
+        pattern="https://.*"
+        size="30"
+        required
+      />
+      <button>Add</button>
+    </form>
+
+    <div id="list"></div>
+  </body>
+</html>
